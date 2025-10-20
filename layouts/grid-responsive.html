@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .container {
+        display: grid;
+        gap: 5px;
+        margin: 14px;
+        grid-template-columns: repeat(3,1fr);
+        grid-template-rows: 1fr 2fr 2fr 1fr;
+        grid-template-areas:
+            "header header header"
+            "sidebar main main"
+            "sidebar section content"
+            "footer footer footer";
+    }
+    @media (max-width: 760px) {
+        .container {
+            grid-template-columns: 1fr;
+            grid-template-rows: 10% 30% 30% 10%;
+            grid-template-areas: 
+                "header"
+                "sidebar"
+                "main"
+                "section"
+                "content"
+                "footer";
+        }
+    }
+    
+</style>
+<body>
+    <div class="container">
+        <div style="grid-area: header; background-color: #ff6b6b; padding: 20px;">
+            <h1>Header</h1>
+        </div>
+        <div style="grid-area: sidebar; background-color: #4ecdc4; padding: 20px;">
+            <h2>Sidebar</h2>
+            <p>Navigation menu</p>
+        </div>
+        <div style="grid-area: main; background-color: #45b7d1; padding: 20px;">
+            <h2>Main Content</h2>
+            <p>This is the main content area</p>
+        </div>
+        <div style="grid-area: section; background-color: #f7b731; padding: 20px;">
+            <h2>Section</h2>
+            <p>Additional section</p>
+        </div>
+        <div style="grid-area: content; background-color: #5f27cd; padding: 20px; color: white;">
+            <h2>Content</h2>
+            <p>Extra content area</p>
+        </div>
+        <div style="grid-area: footer; background-color: #2d3436; padding: 20px; color: white;">
+            <h2>Footer</h2>
+        </div>
+    </div>
+</body>
+</html>
