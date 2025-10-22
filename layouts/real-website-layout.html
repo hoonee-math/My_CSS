@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실제 웹사이트 레이아웃 패턴</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <!--
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        🎯 실제 웹사이트 레이아웃 패턴
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        구조:
+        1. Header: 배경은 전체 폭, 내용은 제한된 폭
+        2. Main: 배경은 전체 폭, 내용은 제한된 폭 (여기에 Grid 사용)
+        3. Footer: 배경은 전체 폭, 내용은 제한된 폭
+
+        핵심 패턴:
+        - 외부: 배경용 div (전체 폭)
+        - 내부: container/max-w (제한된 폭, 가운데 정렬)
+
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    -->
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- HEADER: 배경 전체 폭, 내용 제한 폭 -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <header class="bg-white shadow-md">
+        <!-- 외부: 배경색 전체 폭 -->
+
+        <!-- 내부: 실제 내용은 max-w로 제한 -->
+        <div class="max-w-7xl mx-auto px-4 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <!-- 로고 -->
+                    <div class="text-2xl font-bold text-blue-600">Logo</div>
+                </div>
+
+                <!-- 네비게이션 -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-700 hover:text-blue-600">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">About</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">Services</a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">Contact</a>
+                </nav>
+
+                <!-- 버튼 -->
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    Sign Up
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- HERO SECTION: 배경 전체 폭, 내용 제한 폭 -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
+        <!-- 외부: 배경 그라데이션 전체 폭 -->
+
+        <!-- 내부: 실제 내용은 max-w로 제한 -->
+        <div class="max-w-7xl mx-auto px-4 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                    Welcome to Our Website
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 opacity-90">
+                    Build amazing things with Tailwind CSS
+                </p>
+                <button class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- MAIN CONTENT: 배경 전체 폭, 내용 제한 폭 + GRID -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <main class="bg-gray-50 py-16">
+        <!-- 외부: 배경색 전체 폭 -->
+
+        <!-- 내부: 실제 내용은 max-w로 제한 -->
+        <div class="max-w-7xl mx-auto px-4 lg:px-8">
+            <!--
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                🎯 여기서 Grid 사용!
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+                이제 Grid는 제한된 폭(max-w-7xl) 안에서만 동작
+            -->
+            <div class="grid gap-8
+                        grid-cols-1
+                        md:grid-cols-3 md:grid-rows-[auto_1fr_auto]">
+
+                <!-- Header Section -->
+                <div class="col-span-1 md:col-span-3">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Our Services</h2>
+                    <p class="text-gray-600">Everything you need to build modern websites</p>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="md:row-span-1 bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">Categories</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-blue-600 hover:underline">Web Development</a></li>
+                        <li><a href="#" class="text-blue-600 hover:underline">Mobile Apps</a></li>
+                        <li><a href="#" class="text-blue-600 hover:underline">UI/UX Design</a></li>
+                        <li><a href="#" class="text-blue-600 hover:underline">Marketing</a></li>
+                    </ul>
+                </aside>
+
+                <!-- Main Content Area -->
+                <div class="md:col-span-2">
+                    <!-- 카드 그리드 -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Card 1 -->
+                        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+                            <div class="text-blue-600 text-4xl mb-4">🎨</div>
+                            <h3 class="text-xl font-bold mb-2 text-gray-800">Design</h3>
+                            <p class="text-gray-600">Beautiful, responsive designs that convert</p>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+                            <div class="text-blue-600 text-4xl mb-4">💻</div>
+                            <h3 class="text-xl font-bold mb-2 text-gray-800">Development</h3>
+                            <p class="text-gray-600">Clean, scalable code for your projects</p>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+                            <div class="text-blue-600 text-4xl mb-4">🚀</div>
+                            <h3 class="text-xl font-bold mb-2 text-gray-800">Performance</h3>
+                            <p class="text-gray-600">Lightning-fast loading times</p>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+                            <div class="text-blue-600 text-4xl mb-4">📱</div>
+                            <h3 class="text-xl font-bold mb-2 text-gray-800">Responsive</h3>
+                            <p class="text-gray-600">Perfect on all devices</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Section -->
+                <div class="col-span-1 md:col-span-3 mt-8">
+                    <div class="bg-blue-50 p-6 rounded-lg text-center">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Ready to get started?</h3>
+                        <p class="text-gray-600 mb-4">Join thousands of satisfied customers</p>
+                        <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+                            Start Free Trial
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- FEATURES SECTION: 다른 배경색, 같은 max-w -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section class="bg-white py-16">
+        <!-- 외부: 흰색 배경 전체 폭 -->
+
+        <!-- 내부: 같은 max-w-7xl로 통일 -->
+        <div class="max-w-7xl mx-auto px-4 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Why Choose Us?</h2>
+
+            <!-- 3칸 Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="text-5xl mb-4">⚡</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Fast</h3>
+                    <p class="text-gray-600">Optimized for performance</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="text-5xl mb-4">🔒</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Secure</h3>
+                    <p class="text-gray-600">Enterprise-grade security</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="text-5xl mb-4">💎</div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Premium</h3>
+                    <p class="text-gray-600">High-quality experience</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- FOOTER: 어두운 배경 전체 폭, 내용 제한 폭 -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <footer class="bg-gray-900 text-white py-12">
+        <!-- 외부: 어두운 배경 전체 폭 -->
+
+        <!-- 내부: 같은 max-w-7xl로 통일 -->
+        <div class="max-w-7xl mx-auto px-4 lg:px-8">
+            <!-- 4칸 Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- Company -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Careers</a></li>
+                        <li><a href="#" class="hover:text-white">Press</a></li>
+                    </ul>
+                </div>
+
+                <!-- Products -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Products</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Features</a></li>
+                        <li><a href="#" class="hover:text-white">Pricing</a></li>
+                        <li><a href="#" class="hover:text-white">Updates</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Resources</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Documentation</a></li>
+                        <li><a href="#" class="hover:text-white">Tutorials</a></li>
+                        <li><a href="#" class="hover:text-white">API</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Follow Us</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Twitter</a></li>
+                        <li><a href="#" class="hover:text-white">GitHub</a></li>
+                        <li><a href="#" class="hover:text-white">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Your Company. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!--
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        📌 핵심 패턴 정리
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        모든 섹션에 동일한 패턴 사용:
+
+        <section class="배경색 전체 폭">
+            <div class="max-w-7xl mx-auto px-4 lg:px-8">
+                ← 여기에 Grid나 내용 배치
+            </div>
+        </section>
+
+        이렇게 하면:
+        1. 배경은 화면 전체 폭으로 표시
+        2. 내용은 일정한 폭(max-w-7xl = 1280px)으로 제한
+        3. 모든 섹션의 내용 폭이 일치 (수직 정렬)
+
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        시각적으로 보면:
+
+        ┌─────────────────────────────────────────────┐
+        │     [배경 - 전체 화면 폭]                    │
+        │   ┌─────────────────────────────┐           │
+        │   │  max-w-7xl (1280px)         │           │
+        │   │  실제 내용 영역              │           │
+        │   │  (모든 섹션 동일한 폭)       │           │
+        │   └─────────────────────────────┘           │
+        └─────────────────────────────────────────────┘
+
+        큰 화면일수록 양쪽 여백이 커짐!
+
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    -->
+
+</body>
+</html>

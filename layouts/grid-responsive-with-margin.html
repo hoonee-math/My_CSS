@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid with Side Margins - Tailwind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <!--
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        🎯 데스크톱 좌우 여백 설정하는 3가지 방법
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    -->
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold text-center my-8">방법 1: Container 클래스 (가장 일반적) ⭐</h2>
+
+        <!--
+            container: Tailwind의 반응형 컨테이너
+            - 화면 크기에 따라 자동으로 max-width 설정
+            - 큰 화면에서는 가운데 정렬되고 좌우 여백 생김
+
+            mx-auto: margin-left: auto; margin-right: auto; (가운데 정렬)
+            px-4: padding-left/right: 1rem (16px) - 모바일 여백
+            lg:px-8: 큰 화면에서는 padding 더 크게
+
+            📏 Container 크기:
+            sm (640px~):   max-width: 640px
+            md (768px~):   max-width: 768px
+            lg (1024px~):  max-width: 1024px
+            xl (1280px~):  max-width: 1280px
+            2xl (1536px~): max-width: 1536px
+        -->
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="grid gap-[5px]
+                        grid-cols-1 grid-rows-[auto_auto_auto_auto_auto_auto]
+                        md:grid-cols-3 md:grid-rows-[1fr_2fr_2fr_1fr]">
+
+                <div class="col-span-1 md:col-span-3 md:row-start-1 bg-[#ff6b6b] p-5">
+                    <h1 class="text-2xl font-bold">Header</h1>
+                    <p class="text-sm">container 클래스로 좌우 여백 자동 생성</p>
+                </div>
+
+                <div class="col-span-1 md:col-start-1 md:row-start-2 md:row-span-2 bg-[#4ecdc4] p-5">
+                    <h2 class="text-xl font-semibold">Sidebar</h2>
+                    <p>Navigation menu</p>
+                </div>
+
+                <div class="col-span-1 md:col-start-2 md:col-span-2 md:row-start-2 bg-[#45b7d1] p-5">
+                    <h2 class="text-xl font-semibold">Main Content</h2>
+                    <p>큰 화면에서는 자동으로 가운데 정렬되고 좌우 여백이 생깁니다</p>
+                </div>
+
+                <div class="col-span-1 md:col-start-2 md:row-start-3 bg-[#f7b731] p-5">
+                    <h2 class="text-xl font-semibold">Section</h2>
+                    <p>Additional section</p>
+                </div>
+
+                <div class="col-span-1 md:col-start-3 md:row-start-3 bg-[#5f27cd] p-5 text-white">
+                    <h2 class="text-xl font-semibold">Content</h2>
+                    <p>Extra content area</p>
+                </div>
+
+                <div class="col-span-1 md:col-span-3 md:row-start-4 bg-[#2d3436] p-5 text-white">
+                    <h2 class="text-xl font-semibold">Footer</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold text-center my-8">방법 2: Max-width + Margin Auto</h2>
+
+        <!--
+            max-w-7xl: max-width: 80rem (1280px)
+            - 화면이 1280px 이상이면 더 이상 늘어나지 않음
+            - 초과 공간은 좌우 여백이 됨
+
+            mx-auto: 가운데 정렬
+            px-4: 작은 여백
+            md:px-6: 중간 화면에서 더 큰 여백
+            lg:px-8: 큰 화면에서 더 큰 여백
+
+            📏 Max-width 옵션:
+            max-w-sm:   384px
+            max-w-md:   448px
+            max-w-lg:   512px
+            max-w-xl:   576px
+            max-w-2xl:  672px
+            max-w-4xl:  896px
+            max-w-6xl:  1152px
+            max-w-7xl:  1280px ⭐ (일반적)
+            max-w-full: 100%
+        -->
+        <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+            <div class="grid gap-[5px]
+                        grid-cols-1 grid-rows-[auto_auto_auto_auto_auto_auto]
+                        md:grid-cols-3 md:grid-rows-[1fr_2fr_2fr_1fr]">
+
+                <div class="col-span-1 md:col-span-3 md:row-start-1 bg-[#ff6b6b] p-5">
+                    <h1 class="text-2xl font-bold">Header</h1>
+                    <p class="text-sm">max-w-7xl로 최대 1280px까지만 확장</p>
+                </div>
+
+                <div class="col-span-1 md:col-start-1 md:row-start-2 md:row-span-2 bg-[#4ecdc4] p-5">
+                    <h2 class="text-xl font-semibold">Sidebar</h2>
+                    <p>Navigation menu</p>
+                </div>
+
+                <div class="col-span-1 md:col-start-2 md:col-span-2 md:row-start-2 bg-[#45b7d1] p-5">
+                    <h2 class="text-xl font-semibold">Main Content</h2>
+                    <p>1280px 이상 화면에서는 더 이상 늘어나지 않습니다</p>
+                </div>
+
+                <div class="col-span-1 md:col-start-2 md:row-start-3 bg-[#f7b731] p-5">
+                    <h2 class="text-xl font-semibold">Section</h2>
+                    <p>Additional section</p>
+                </div>
+
+                <div class="col-span-1 md:col-start-3 md:row-start-3 bg-[#5f27cd] p-5 text-white">
+                    <h2 class="text-xl font-semibold">Content</h2>
+                    <p>Extra content area</p>
+                </div>
+
+                <div class="col-span-1 md:col-span-3 md:row-start-4 bg-[#2d3436] p-5 text-white">
+                    <h2 class="text-xl font-semibold">Footer</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold text-center my-8">방법 3: 반응형 Margin (직접 제어)</h2>
+
+        <!--
+            mx-4: 모바일에서 좌우 1rem (16px) 여백
+            md:mx-8: 중간 화면에서 2rem (32px) 여백
+            lg:mx-16: 큰 화면에서 4rem (64px) 여백
+            xl:mx-32: 아주 큰 화면에서 8rem (128px) 여백
+
+            📏 Margin 크기:
+            mx-0:  0px
+            mx-1:  4px
+            mx-2:  8px
+            mx-4:  16px
+            mx-8:  32px
+            mx-16: 64px
+            mx-32: 128px
+            mx-auto: 자동 (가운데 정렬)
+        -->
+        <div class="mx-4 md:mx-8 lg:mx-16 xl:mx-32">
+            <div class="grid gap-[5px]
+                        grid-cols-1 grid-rows-[auto_auto_auto_auto_auto_auto]
+                        md:grid-cols-3 md:grid-rows-[1fr_2fr_2fr_1fr]">
+
+                <div class="col-span-1 md:col-span-3 md:row-start-1 bg-[#ff6b6b] p-5">
+                    <h1 class="text-2xl font-bold">Header</h1>
+                    <p class="text-sm">화면 크기별로 여백 크기 직접 지정</p>
+                </div>
+
+                <div class="col-span-1 md:col-start-1 md:row-start-2 md:row-span-2 bg-[#4ecdc4] p-5">
+                    <h2 class="text-xl font-semibold">Sidebar</h2>
+                    <p>Navigation menu</p>
+                </div>
+
+                <div class="col-span-1 md:col-start-2 md:col-span-2 md:row-start-2 bg-[#45b7d1] p-5">
+                    <h2 class="text-xl font-semibold">Main Content</h2>
+                    <p>화면이 클수록 여백도 커집니다</p>
+                </div>
+
+                <div class="col-span-1 md:col-start-2 md:row-start-3 bg-[#f7b731] p-5">
+                    <h2 class="text-xl font-semibold">Section</h2>
+                    <p>Additional section</p>
+                </div>
+
+                <div class="col-span-1 md:col-start-3 md:row-start-3 bg-[#5f27cd] p-5 text-white">
+                    <h2 class="text-xl font-semibold">Content</h2>
+                    <p>Extra content area</p>
+                </div>
+
+                <div class="col-span-1 md:col-span-3 md:row-start-4 bg-[#2d3436] p-5 text-white">
+                    <h2 class="text-xl font-semibold">Footer</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <section class="mb-12 bg-white py-12">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-2xl font-bold text-center mb-8">📊 3가지 방법 비교</h2>
+
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-800 text-white">
+                            <th class="border p-3 text-left">방법</th>
+                            <th class="border p-3 text-left">코드</th>
+                            <th class="border p-3 text-left">특징</th>
+                            <th class="border p-3 text-left">추천</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-green-50">
+                            <td class="border p-3 font-semibold">1. Container</td>
+                            <td class="border p-3"><code class="bg-gray-100 px-2 py-1 rounded">container mx-auto px-4</code></td>
+                            <td class="border p-3">
+                                ✅ 자동으로 반응형 max-width<br>
+                                ✅ 가장 간단<br>
+                                ✅ Tailwind 표준
+                            </td>
+                            <td class="border p-3 text-green-600 font-bold">⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-3 font-semibold">2. Max-width</td>
+                            <td class="border p-3"><code class="bg-gray-100 px-2 py-1 rounded">max-w-7xl mx-auto px-4</code></td>
+                            <td class="border p-3">
+                                ✅ 최대 너비 직접 제어<br>
+                                ✅ 유연함<br>
+                                ⚠️ max-w 값 선택 필요
+                            </td>
+                            <td class="border p-3 text-blue-600 font-bold">⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-3 font-semibold">3. Margin</td>
+                            <td class="border p-3"><code class="bg-gray-100 px-2 py-1 rounded">mx-4 md:mx-8 lg:mx-16</code></td>
+                            <td class="border p-3">
+                                ✅ 완전한 제어<br>
+                                ⚠️ 여백 크기 직접 관리<br>
+                                ⚠️ 코드 복잡
+                            </td>
+                            <td class="border p-3 text-gray-600">⭐</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-8 bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                <h3 class="font-bold text-lg mb-2">💡 추천</h3>
+                <p class="mb-2"><strong>일반적인 경우:</strong> <code class="bg-gray-100 px-2 py-1 rounded">container mx-auto px-4 lg:px-8</code></p>
+                <p><strong>최대 너비 제어:</strong> <code class="bg-gray-100 px-2 py-1 rounded">max-w-7xl mx-auto px-4</code></p>
+            </div>
+
+            <div class="mt-6 bg-blue-50 border-l-4 border-blue-400 p-4">
+                <h3 class="font-bold text-lg mb-2">📱 모바일 vs 데스크톱</h3>
+                <div class="space-y-2">
+                    <div>
+                        <strong>모바일:</strong>
+                        <code class="bg-gray-100 px-2 py-1 rounded ml-2">px-4</code>
+                        <span class="text-gray-600 ml-2">(좌우 16px 여백)</span>
+                    </div>
+                    <div>
+                        <strong>데스크톱:</strong>
+                        <code class="bg-gray-100 px-2 py-1 rounded ml-2">lg:px-8</code>
+                        <span class="text-gray-600 ml-2">(큰 화면에서 32px 여백)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <section class="mb-12">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-2xl font-bold text-center mb-8">🔍 시각적 비교</h2>
+
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="font-bold mb-4">화면 크기별 동작:</h3>
+
+                <div class="space-y-6">
+                    <!-- 모바일 -->
+                    <div>
+                        <p class="font-semibold mb-2">📱 모바일 (0~767px)</p>
+                        <div class="bg-gray-200 p-2 text-xs">
+                            <div class="bg-blue-500 text-white p-4">
+                                ← px-4 (16px) 여백 → 콘텐츠 전체 폭 ← px-4 →
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 데스크톱 -->
+                    <div>
+                        <p class="font-semibold mb-2">🖥️ 데스크톱 (1280px 이상)</p>
+                        <div class="bg-gray-200 p-2 text-xs flex">
+                            <div class="bg-gray-300 flex-1 p-2 text-center">좌측 여백</div>
+                            <div class="bg-blue-500 text-white p-4" style="width: 70%;">
+                                max-w-7xl (1280px) 콘텐츠 영역
+                            </div>
+                            <div class="bg-gray-300 flex-1 p-2 text-center">우측 여백</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
