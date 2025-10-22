@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>::before와 ::after 완벽 가이드</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #333;
+            border-bottom: 3px solid #4F46E5;
+            padding-bottom: 10px;
+        }
+
+        .note {
+            background: #FEF3C7;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #F59E0B;
+            font-size: 14px;
+        }
+
+        .highlight {
+            background: #DBEAFE;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #1E40AF;
+        }
+
+        /* 예제 1: 기본 개념 */
+        .basic-box {
+            padding: 20px;
+            background: #E0E7FF;
+            border: 2px solid #6366F1;
+            margin: 20px 0;
+        }
+
+        .basic-box::before {
+            content: '👉 ';  /* 필수! content가 있어야 표시됨 */
+            color: #DC2626;
+            font-weight: bold;
+        }
+
+        .basic-box::after {
+            content: ' ✅';
+            color: #059669;
+        }
+
+        /* 예제 2: 시각적으로 이해하기 */
+        .visual-demo {
+            position: relative;
+            padding: 40px;
+            background: #DBEAFE;
+            border: 3px solid #3B82F6;
+            margin: 30px 0;
+        }
+
+        .visual-demo::before {
+            content: '::before (앞에 추가됨)';
+            position: absolute;
+            top: -30px;
+            left: 0;
+            background: #FCA5A5;
+            padding: 10px 15px;
+            border-radius: 6px;
+            color: #7F1D1D;
+            font-weight: bold;
+            border: 2px solid #DC2626;
+        }
+
+        .visual-demo::after {
+            content: '::after (뒤에 추가됨)';
+            position: absolute;
+            bottom: -30px;
+            right: 0;
+            background: #BBF7D0;
+            padding: 10px 15px;
+            border-radius: 6px;
+            color: #14532D;
+            font-weight: bold;
+            border: 2px solid #059669;
+        }
+
+        /* 예제 3: team-card 패턴 - 오버레이 */
+        .overlay-demo {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .overlay-demo::before {
+            content: '';  /* 빈 문자열 - 시각적 요소만 */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);  /* 검은색 반투명 */
+            transition: opacity 0.3s;
+            z-index: 1;
+        }
+
+        .overlay-demo:hover::before {
+            opacity: 0;  /* hover 시 투명해짐 */
+        }
+
+        .overlay-content {
+            position: relative;
+            z-index: 2;  /* ::before 위에 표시 */
+            color: white;
+            padding: 20px;
+        }
+
+        /* 예제 4: 말풍선 */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            padding: 10px 20px;
+            background: #3B82F6;
+            color: white;
+            border-radius: 6px;
+            margin: 40px;
+        }
+
+        .tooltip::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;  /* 아래쪽 화살표 */
+            left: 50%;
+            transform: translateX(-50%);
+
+            /* 삼각형 만들기 */
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #3B82F6;
+        }
+
+        /* 예제 5: 아이콘 추가 */
+        .icon-text {
+            margin: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .icon-text.check::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #059669;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .icon-text.error::before {
+            content: '✗';
+            position: absolute;
+            left: 0;
+            color: #DC2626;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .icon-text.info::before {
+            content: 'ℹ';
+            position: absolute;
+            left: 0;
+            color: #3B82F6;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        /* 예제 6: 따옴표 */
+        .quote {
+            position: relative;
+            padding: 30px 40px;
+            background: #F3F4F6;
+            border-left: 4px solid #6366F1;
+            margin: 30px 0;
+            font-style: italic;
+            color: #4B5563;
+        }
+
+        .quote::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 60px;
+            color: #C7D2FE;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .quote::after {
+            content: '"';
+            position: absolute;
+            bottom: -10px;
+            right: 10px;
+            font-size: 60px;
+            color: #C7D2FE;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        /* 예제 7: 구분선 */
+        .divider {
+            position: relative;
+            text-align: center;
+            margin: 40px 0;
+            color: #6B7280;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #D1D5DB;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        /* 예제 8: 리본 배지 */
+        .ribbon-box {
+            position: relative;
+            padding: 30px;
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            margin: 40px 20px;
+            width: 300px;
+        }
+
+        .ribbon-box::before {
+            content: 'SALE';
+            position: absolute;
+            top: 20px;
+            right: -5px;
+            background: #EF4444;
+            color: white;
+            padding: 8px 20px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .ribbon-box::after {
+            content: '';
+            position: absolute;
+            top: 48px;  /* ribbon 아래 */
+            right: -5px;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 0;
+            border-top: 5px solid #991B1B;  /* 어두운 빨강 */
+        }
+
+        /* 예제 9: HTML 없이 만든 버튼 */
+        .fancy-button {
+            position: relative;
+            padding: 15px 30px;
+            background: #6366F1;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .fancy-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s;
+        }
+
+        .fancy-button:hover::before {
+            left: 100%;  /* 빛이 지나가는 효과 */
+        }
+
+        .fancy-button:hover {
+            background: #4F46E5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        /* 비교 테이블 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: #4F46E5;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        code {
+            background: #1F2937;
+            color: #F9FAFB;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        pre {
+            background: #1F2937;
+            color: #F9FAFB;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; color: #1F2937;">✨ ::before와 ::after 완벽 가이드</h1>
+
+    <!-- 예제 1: 기본 개념 -->
+    <div class="section">
+        <h2>1️⃣ 기본 개념: ::before와 ::after란?</h2>
+        <div class="note">
+            💡 <strong>::before</strong>와 <strong>::after</strong>는 <span class="highlight">HTML을 추가하지 않고</span> CSS만으로 요소를 만드는 가상 요소입니다.
+        </div>
+
+        <div class="basic-box">
+            이것이 실제 HTML 내용입니다
+        </div>
+
+        <pre>
+/* CSS */
+.basic-box::before {
+    content: '👉 ';  /* 앞에 추가 */
+}
+
+.basic-box::after {
+    content: ' ✅';  /* 뒤에 추가 */
+}
+
+/* HTML - 실제로는 이것만 작성 */
+&lt;div class="basic-box"&gt;
+    이것이 실제 HTML 내용입니다
+&lt;/div&gt;
+
+/* 브라우저가 이렇게 렌더링: */
+👉 이것이 실제 HTML 내용입니다 ✅
+        </pre>
+    </div>
+
+    <!-- 예제 2: 시각적 구조 -->
+    <div class="section">
+        <h2>2️⃣ 구조 이해하기</h2>
+        <div class="note">
+            📦 요소의 구조: <code>::before</code> → <span class="highlight">실제 내용</span> → <code>::after</code>
+        </div>
+
+        <div class="visual-demo">
+            <strong>이것이 실제 HTML 내용</strong><br>
+            (div.visual-demo)
+        </div>
+
+        <pre>
+.visual-demo::before {
+    content: '::before (앞에 추가됨)';
+    position: absolute;
+    top: -30px;
+    /* ... */
+}
+
+.visual-demo::after {
+    content: '::after (뒤에 추가됨)';
+    position: absolute;
+    bottom: -30px;
+    /* ... */
+}
+        </pre>
+    </div>
+
+    <!-- 예제 3: team-card 패턴 -->
+    <div class="section">
+        <h2>3️⃣ 실전: team-card 오버레이 패턴 (마우스 올려보세요!)</h2>
+        <div class="note">
+            🎯 <strong>team-card.html에서 사용한 바로 그 기법!</strong><br>
+            ::before로 검은색 반투명 레이어를 만들어 배경 이미지 위에 덮습니다.
+        </div>
+
+        <div class="overlay-demo">
+            <div class="overlay-content">
+                <h3 style="margin: 0;">Sarah Johnson</h3>
+                <p style="margin: 5px 0;">CEO</p>
+                <small>hover 시 오버레이 사라짐</small>
+            </div>
+        </div>
+
+        <pre>
+.overlay-demo {
+    position: relative;  /* 기준점 */
+    background: 그라데이션;
+}
+
+/* HTML 없이 검은 레이어 추가! */
+.overlay-demo::before {
+    content: '';  /* ← 필수! (빈 문자열) */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);  /* 검은색 50% 투명 */
+    z-index: 1;
+}
+
+.overlay-content {
+    position: relative;
+    z-index: 2;  /* ::before 위에 표시 */
+}
+        </pre>
+
+        <div class="note">
+            ❓ <strong>왜 HTML로 div 하나 더 안 만들고 ::before를 쓸까?</strong><br>
+            ✅ HTML이 깔끔해짐 (구조와 장식 분리)<br>
+            ✅ 재사용 가능 (CSS만 바꾸면 됨)<br>
+            ✅ JavaScript로 조작할 필요 없는 순수 장식 요소
+        </div>
+    </div>
+
+    <!-- 예제 4: 말풍선 -->
+    <div class="section">
+        <h2>4️⃣ 실전: 말풍선 화살표</h2>
+        <div class="note">
+            💡 ::before로 삼각형을 만들어 화살표처럼 보이게!
+        </div>
+
+        <div style="text-align: center;">
+            <div class="tooltip">
+                툴팁 메시지
+            </div>
+        </div>
+
+        <pre>
+.tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+
+    /* CSS로 삼각형 만들기 (border 트릭) */
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #3B82F6;
+}
+        </pre>
+    </div>
+
+    <!-- 예제 5: 아이콘 -->
+    <div class="section">
+        <h2>5️⃣ 실전: 아이콘 자동 추가</h2>
+        <div class="note">
+            💡 이미지 파일 없이 CSS만으로 아이콘 추가!
+        </div>
+
+        <div class="icon-text check">파일 업로드 완료</div>
+        <div class="icon-text error">비밀번호가 일치하지 않습니다</div>
+        <div class="icon-text info">추가 정보를 입력해주세요</div>
+
+        <pre>
+.icon-text.check::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #059669;
+}
+
+/* HTML */
+&lt;div class="icon-text check"&gt;파일 업로드 완료&lt;/div&gt;
+        </pre>
+    </div>
+
+    <!-- 예제 6: 따옴표 -->
+    <div class="section">
+        <h2>6️⃣ 실전: 인용문 따옴표</h2>
+
+        <div class="quote">
+            The best way to predict the future is to invent it.
+            <br><strong>- Alan Kay</strong>
+        </div>
+
+        <pre>
+.quote::before {
+    content: '"';
+    font-size: 60px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.quote::after {
+    content: '"';
+    font-size: 60px;
+    position: absolute;
+    bottom: -10px;
+    right: 10px;
+}
+        </pre>
+    </div>
+
+    <!-- 예제 7: 구분선 -->
+    <div class="section">
+        <h2>7️⃣ 실전: OR 구분선</h2>
+
+        <div class="divider">OR</div>
+
+        <pre>
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: #D1D5DB;
+}
+
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+
+/* 결과: ━━━━━━ OR ━━━━━━ */
+        </pre>
+    </div>
+
+    <!-- 예제 8: 리본 -->
+    <div class="section">
+        <h2>8️⃣ 실전: 리본 배지</h2>
+
+        <div class="ribbon-box">
+            <h3>상품명</h3>
+            <p>가격: <del>50,000원</del> <strong style="color: #EF4444;">29,900원</strong></p>
+        </div>
+
+        <pre>
+.ribbon-box::before {
+    content: 'SALE';
+    position: absolute;
+    top: 20px;
+    right: -5px;
+    background: #EF4444;
+    color: white;
+    padding: 8px 20px;
+}
+
+.ribbon-box::after {
+    content: '';
+    /* 작은 삼각형으로 리본 끝 모양 만들기 */
+    border-top: 5px solid #991B1B;
+}
+        </pre>
+    </div>
+
+    <!-- 예제 9: 버튼 효과 -->
+    <div class="section">
+        <h2>9️⃣ 실전: 버튼 빛 효과 (hover 해보세요!)</h2>
+
+        <div style="text-align: center;">
+            <button class="fancy-button">Hover Me!</button>
+        </div>
+
+        <pre>
+.fancy-button::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    left: -100%;  /* 왼쪽에 숨김 */
+    transition: left 0.3s;
+}
+
+.fancy-button:hover::before {
+    left: 100%;  /* 오른쪽으로 이동 (빛 지나감) */
+}
+        </pre>
+    </div>
+
+    <!-- 핵심 정리 -->
+    <div class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <h2 style="color: white; border-bottom-color: white;">📌 핵심 정리</h2>
+
+        <h3>필수 규칙</h3>
+        <table>
+            <tr>
+                <th>규칙</th>
+                <th>설명</th>
+                <th>예시</th>
+            </tr>
+            <tr style="background: white; color: #1F2937;">
+                <td><strong>content 필수</strong></td>
+                <td>content가 없으면 표시 안 됨</td>
+                <td><code>content: '';</code> 또는 <code>content: '텍스트';</code></td>
+            </tr>
+            <tr style="background: white; color: #1F2937;">
+                <td><strong>::는 2개</strong></td>
+                <td>구버전 :before도 작동하지만 ::before 권장</td>
+                <td><code>::before</code> ✅ <code>:before</code> ⚠️</td>
+            </tr>
+            <tr style="background: white; color: #1F2937;">
+                <td><strong>inline 요소 주의</strong></td>
+                <td>&lt;span&gt;에는 absolute/fixed 사용 어려움</td>
+                <td><code>display: inline-block;</code> 추가</td>
+            </tr>
+        </table>
+
+        <h3 style="margin-top: 30px;">자주 쓰는 패턴</h3>
+        <ul style="line-height: 1.8; font-size: 16px;">
+            <li>🎨 <strong>오버레이</strong>: <code>content: ''; position: absolute;</code></li>
+            <li>✏️ <strong>텍스트/아이콘</strong>: <code>content: '✓';</code></li>
+            <li>📐 <strong>도형</strong>: <code>content: ''; border 트릭;</code></li>
+            <li>✨ <strong>장식 효과</strong>: <code>transition과 hover 조합</code></li>
+        </ul>
+
+        <h3>team-card에서 왜 사용했나?</h3>
+        <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <strong>목적:</strong> 배경 이미지 위에 검은색 반투명 레이어 추가<br>
+            <strong>이유:</strong> HTML에 div 추가하지 않고 CSS만으로 해결<br>
+            <strong>장점:</strong> 코드가 깔끔하고 재사용 가능
+        </div>
+    </div>
+
+    <!-- 비교 -->
+    <div class="section">
+        <h2>💡 ::before 없이 vs 있을 때</h2>
+
+        <table>
+            <tr>
+                <th>방법</th>
+                <th>코드</th>
+                <th>장단점</th>
+            </tr>
+            <tr>
+                <td><strong>HTML div 추가</strong></td>
+                <td>
+                    <pre style="margin: 5px 0; padding: 10px; font-size: 12px;">
+&lt;div class="card"&gt;
+  &lt;div class="overlay"&gt;&lt;/div&gt;
+  &lt;div class="content"&gt;...&lt;/div&gt;
+&lt;/div&gt;</pre>
+                </td>
+                <td>
+                    ✅ 초보자에게 이해하기 쉬움<br>
+                    ❌ HTML이 복잡해짐<br>
+                    ❌ JavaScript로 조작 시 선택자 필요
+                </td>
+            </tr>
+            <tr>
+                <td><strong>::before 사용</strong></td>
+                <td>
+                    <pre style="margin: 5px 0; padding: 10px; font-size: 12px;">
+&lt;div class="card"&gt;
+  &lt;div class="content"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+
+.card::before {
+  content: '';
+  /* overlay CSS */
+}</pre>
+                </td>
+                <td>
+                    ✅ HTML 깔끔<br>
+                    ✅ CSS로 완전 제어<br>
+                    ✅ 재사용 용이<br>
+                    ⚠️ content 필수
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Position 완벽 이해하기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .example-section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #333;
+            border-bottom: 3px solid #4F46E5;
+            padding-bottom: 10px;
+        }
+
+        .code-comment {
+            background: #FEF3C7;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #F59E0B;
+            font-size: 14px;
+        }
+
+        /* 예제 1: Static (기본값) */
+        .box-static {
+            background: #E0E7FF;
+            padding: 20px;
+            margin: 10px 0;
+            border: 2px solid #6366F1;
+        }
+
+        /* 예제 2: Relative */
+        .box-relative {
+            position: relative;
+            background: #DBEAFE;
+            padding: 20px;
+            margin: 10px 0;
+            border: 2px solid #3B82F6;
+            left: 30px;  /* 원래 위치에서 오른쪽으로 30px 이동 */
+            top: 10px;   /* 원래 위치에서 아래로 10px 이동 */
+        }
+
+        /* 예제 3: Relative + Absolute 조합 (가장 중요!) */
+        .parent-relative {
+            position: relative;  /* ★ absolute의 기준점 역할 */
+            background: #F3F4F6;
+            padding: 20px;
+            margin: 20px 0;
+            border: 3px dashed #6366F1;
+            height: 200px;
+        }
+
+        .child-absolute {
+            position: absolute;  /* ★ 부모(relative)를 기준으로 위치 잡음 */
+            background: #FCA5A5;
+            padding: 15px;
+            border: 2px solid #DC2626;
+
+            /* 부모의 오른쪽 상단 모서리에 배치 */
+            top: 10px;
+            right: 10px;
+        }
+
+        /* 예제 4: 실전 응용 - 뱃지 */
+        .card {
+            position: relative;  /* 기준점 */
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            width: 250px;
+            margin: 20px;
+        }
+
+        .badge {
+            position: absolute;  /* 카드 기준 */
+            top: -10px;
+            right: -10px;
+            background: #EF4444;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* 예제 5: 실전 응용 - 이미지 오버레이 */
+        .image-container {
+            position: relative;  /* 기준점 */
+            width: 300px;
+            height: 200px;
+            margin: 20px 0;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: absolute;  /* 이미지 컨테이너 기준 */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .image-container:hover .overlay {
+            opacity: 1;
+        }
+
+        /* 예제 6: 중첩된 레이어 (team-card와 같은 패턴) */
+        .layered-box {
+            position: relative;  /* 기준점 */
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .layered-box::before {
+            content: '';
+            position: absolute;  /* layered-box 기준 */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+
+        .layered-content {
+            position: relative;  /* z-index 적용을 위해 */
+            z-index: 2;  /* ::before 위에 표시 */
+            color: white;
+            padding: 20px;
+        }
+
+        /* 비교용 박스 */
+        .comparison {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .demo-box {
+            padding: 20px;
+            background: #E5E7EB;
+            border: 2px solid #9CA3AF;
+            border-radius: 4px;
+            min-width: 200px;
+        }
+
+        .highlight {
+            background: #FEF3C7;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #92400E;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; color: #1F2937;">📍 Position 완벽 가이드</h1>
+
+    <!-- 예제 1: Static -->
+    <div class="example-section">
+        <h2>1️⃣ Static (기본값)</h2>
+        <div class="code-comment">
+            ✏️ 아무 position도 안 주면 static<br>
+            ✏️ top, left, right, bottom 무시됨<br>
+            ✏️ 문서 흐름 그대로 배치
+        </div>
+        <div class="box-static">박스 1 (static)</div>
+        <div class="box-static">박스 2 (static)</div>
+        <div class="box-static">박스 3 (static)</div>
+    </div>
+
+    <!-- 예제 2: Relative -->
+    <div class="example-section">
+        <h2>2️⃣ Relative</h2>
+        <div class="code-comment">
+            ✏️ <span class="highlight">원래 자기 위치</span>를 기준으로 이동<br>
+            ✏️ 원래 공간은 그대로 차지 (다른 요소에 영향 X)<br>
+            ✏️ top, left로 위치 조정 가능
+        </div>
+        <div class="box-static">박스 1 (static - 비교용)</div>
+        <div class="box-relative">박스 2 (relative: left 30px, top 10px)</div>
+        <div class="box-static">박스 3 (static - 비교용)</div>
+        <p style="color: #DC2626; font-weight: bold;">
+            👆 박스 2가 이동했지만, 박스 3은 원래 자리에 있음 (박스 2의 원래 공간이 유지됨)
+        </p>
+    </div>
+
+    <!-- 예제 3: Relative + Absolute 황금 조합 -->
+    <div class="example-section">
+        <h2>3️⃣ Absolute (가장 중요!)</h2>
+        <div class="code-comment">
+            ✏️ <span class="highlight">가장 가까운 relative 부모</span>를 기준으로 위치 잡음<br>
+            ✏️ 부모에 relative가 없으면? → 화면(body) 기준으로 배치됨<br>
+            ✏️ 문서 흐름에서 빠져나옴 (공간 차지 안 함)
+        </div>
+
+        <h3 style="color: #059669;">✅ 올바른 사용법</h3>
+        <div class="parent-relative">
+            부모 (position: relative) - 점선 박스
+            <div class="child-absolute">
+                자식 (position: absolute)<br>
+                top: 10px, right: 10px
+            </div>
+        </div>
+        <p style="color: #059669; font-weight: bold;">
+            ✅ 부모가 relative → 자식 absolute가 부모 안에서 위치 잡음
+        </p>
+
+        <h3 style="color: #DC2626;">❌ 부모가 relative 없으면?</h3>
+        <div style="background: #F3F4F6; padding: 20px; border: 3px dashed #9CA3AF; height: 150px;">
+            부모 (position 없음 = static)
+            <div style="position: absolute; top: 10px; right: 10px; background: #FCA5A5; padding: 15px; border: 2px solid #DC2626;">
+                자식 (absolute) - 화면 기준으로 배치됨!
+            </div>
+        </div>
+        <p style="color: #DC2626; font-weight: bold;">
+            ❌ 부모가 static → 자식이 화면(body) 기준으로 튀어나감
+        </p>
+    </div>
+
+    <!-- 예제 4: 실전 - 뱃지 -->
+    <div class="example-section">
+        <h2>4️⃣ 실전 응용: 알림 뱃지</h2>
+        <div class="code-comment">
+            💡 사용 사례: 쇼핑몰 장바구니, 알림 카운트 등
+        </div>
+        <div class="card">
+            <h3>상품 카드</h3>
+            <p>가격: 29,900원</p>
+            <div class="badge">NEW</div>
+        </div>
+        <pre style="background: #1F2937; color: #F9FAFB; padding: 15px; border-radius: 4px; overflow-x: auto;">
+.card {
+    position: relative;  /* ← 기준점 */
+}
+
+.badge {
+    position: absolute;  /* ← 카드 기준 */
+    top: -10px;
+    right: -10px;
+}</pre>
+    </div>
+
+    <!-- 예제 5: 실전 - 이미지 오버레이 -->
+    <div class="example-section">
+        <h2>5️⃣ 실전 응용: 이미지 오버레이 (마우스 올려보세요!)</h2>
+        <div class="code-comment">
+            💡 사용 사례: 포트폴리오, 갤러리, 썸네일 등
+        </div>
+        <div class="image-container">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop" alt="산">
+            <div class="overlay">자세히 보기</div>
+        </div>
+        <pre style="background: #1F2937; color: #F9FAFB; padding: 15px; border-radius: 4px; overflow-x: auto;">
+.image-container {
+    position: relative;  /* ← 기준점 */
+}
+
+.overlay {
+    position: absolute;  /* ← 이미지 위를 덮음 */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}</pre>
+    </div>
+
+    <!-- 예제 6: team-card 패턴 -->
+    <div class="example-section">
+        <h2>6️⃣ Team Card 패턴 (3개 레이어)</h2>
+        <div class="code-comment">
+            💡 당신의 team-card.html과 같은 구조!
+        </div>
+        <div class="layered-box">
+            <div class="layered-content">
+                <h3 style="margin: 0;">Layer 3: 텍스트</h3>
+                <p style="margin: 5px 0;">position: relative + z-index: 2</p>
+                <small>가장 위에 표시됨</small>
+            </div>
+        </div>
+        <pre style="background: #1F2937; color: #F9FAFB; padding: 15px; border-radius: 4px; overflow-x: auto;">
+/* Layer 1: 배경 */
+.layered-box {
+    position: relative;  /* ← ::before의 기준점 */
+}
+
+/* Layer 2: 어두운 오버레이 */
+.layered-box::before {
+    position: absolute;  /* ← layered-box 기준 */
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 1;
+}
+
+/* Layer 3: 텍스트 */
+.layered-content {
+    position: relative;  /* ← z-index 적용하려면 필요 */
+    z-index: 2;  /* ← ::before 위에 표시 */
+}</pre>
+    </div>
+
+    <!-- 요약 정리 -->
+    <div class="example-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <h2 style="color: white; border-bottom-color: white;">📌 핵심 정리</h2>
+
+        <h3>언제 사용할까?</h3>
+        <table style="width: 100%; border-collapse: collapse; background: white; color: #1F2937; border-radius: 8px; overflow: hidden;">
+            <tr style="background: #4F46E5; color: white;">
+                <th style="padding: 12px; text-align: left;">Position</th>
+                <th style="padding: 12px; text-align: left;">언제 사용?</th>
+                <th style="padding: 12px; text-align: left;">특징</th>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #E5E7EB;"><strong>static</strong></td>
+                <td style="padding: 12px; border-bottom: 1px solid #E5E7EB;">기본값 (명시 안 해도 됨)</td>
+                <td style="padding: 12px; border-bottom: 1px solid #E5E7EB;">일반적인 흐름</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #E5E7EB;"><strong>relative</strong></td>
+                <td style="padding: 12px; border-bottom: 1px solid #E5E7EB;">
+                    1. absolute의 기준점 만들기<br>
+                    2. 살짝 위치 조정
+                </td>
+                <td style="padding: 12px; border-bottom: 1px solid #E5E7EB;">원래 공간 유지</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px;"><strong>absolute</strong></td>
+                <td style="padding: 12px;">
+                    1. 뱃지, 아이콘 배치<br>
+                    2. 오버레이<br>
+                    3. 툴팁
+                </td>
+                <td style="padding: 12px;">부모(relative) 기준 배치</td>
+            </tr>
+        </table>
+
+        <h3 style="margin-top: 30px;">황금 공식</h3>
+        <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 8px; font-size: 18px; text-align: center; margin: 20px 0;">
+            <strong>부모: relative</strong> + <strong>자식: absolute</strong> = 완벽한 조합 ✨
+        </div>
+
+        <h3>team-card.html에서</h3>
+        <ul style="line-height: 1.8;">
+            <li><code>team-card relative</code> → ::before의 기준점</li>
+            <li><code>team-card::before absolute</code> → team-card를 꽉 채움</li>
+            <li><code>team-card-content relative</code> → z-index로 위에 표시</li>
+        </ul>
+    </div>
+
+</body>
+</html>
