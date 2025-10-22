@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Card - Hover Background Image</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .team-card {
+            transition: all 0.3s ease;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .team-card:hover::before {
+            opacity: 1;
+        }
+
+        .team-card-content {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 p-6">
+        <!-- Team Member 1 -->
+        <div class="team-card relative h-80 overflow-hidden bg-indigo-500 cursor-pointer"
+             data-bg="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=500&fit=crop">
+            <div class="team-card-content h-full flex flex-col justify-end p-4 text-white">
+                <h3 class="text-xl font-bold">Sarah Johnson</h3>
+                <p class="text-sm">CEO</p>
+                <p class="mt-2 text-sm opacity-80">15 years of industry experience</p>
+            </div>
+        </div>
+
+        <!-- Team Member 2 -->
+        <div class="team-card relative h-80 overflow-hidden bg-indigo-500 cursor-pointer"
+             data-bg="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop">
+            <div class="team-card-content h-full flex flex-col justify-end p-4 text-white">
+                <h3 class="text-xl font-bold">Michael Chen</h3>
+                <p class="text-sm">CTO</p>
+                <p class="mt-2 text-sm opacity-80">Former Google engineer</p>
+            </div>
+        </div>
+
+        <!-- Team Member 3 -->
+        <div class="team-card relative h-80 overflow-hidden bg-indigo-500 cursor-pointer"
+             data-bg="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop">
+            <div class="team-card-content h-full flex flex-col justify-end p-4 text-white">
+                <h3 class="text-xl font-bold">Emily Rodriguez</h3>
+                <p class="text-sm">Lead Designer</p>
+                <p class="mt-2 text-sm opacity-80">Award-winning UI/UX designer</p>
+            </div>
+        </div>
+
+        <!-- Team Member 4 -->
+        <div class="team-card relative h-80 overflow-hidden bg-indigo-500 cursor-pointer"
+             data-bg="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop">
+            <div class="team-card-content h-full flex flex-col justify-end p-4 text-white">
+                <h3 class="text-xl font-bold">David Park</h3>
+                <p class="text-sm">Marketing Director</p>
+                <p class="mt-2 text-sm opacity-80">10+ years in digital marketing</p>
+            </div>
+        </div>
+
+        <!-- Team Member 5 -->
+        <div class="team-card relative h-80 overflow-hidden bg-indigo-500 cursor-pointer"
+             data-bg="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=500&fit=crop">
+            <div class="team-card-content h-full flex flex-col justify-end p-4 text-white">
+                <h3 class="text-xl font-bold">Jessica Lee</h3>
+                <p class="text-sm">Product Manager</p>
+                <p class="mt-2 text-sm opacity-80">Passionate about user experience</p>
+            </div>
+        </div>
+
+        <!-- Team Member 6 -->
+        <div class="team-card relative h-80 overflow-hidden bg-indigo-500 cursor-pointer"
+             data-bg="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop">
+            <div class="team-card-content h-full flex flex-col justify-end p-4 text-white">
+                <h3 class="text-xl font-bold">James Wilson</h3>
+                <p class="text-sm">Sales Lead</p>
+                <p class="mt-2 text-sm opacity-80">Top performer for 3 years</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hover 시 배경 이미지 표시
+        document.querySelectorAll('.team-card').forEach(card => {
+            const bgImage = card.getAttribute('data-bg');
+
+            card.addEventListener('mouseenter', function() {
+                this.style.backgroundImage = `url('${bgImage}')`;
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.backgroundImage = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
