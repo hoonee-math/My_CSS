@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Responsive - Tailwind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <!--
+        grid: display grid
+        gap-[5px]: gap 5px
+        m-[14px]: margin 14px
+
+        Desktop (기본):
+        grid-cols-3: grid-template-columns: repeat(3, 1fr)
+        grid-rows-[1fr_2fr_2fr_1fr]: grid-template-rows: 1fr 2fr 2fr 1fr
+
+        Mobile (md:max-width 768px):
+        md:grid-cols-1: 1개 컬럼
+        md:grid-rows-[10%_30%_30%_10%]: 모바일 row 높이
+    -->
+    <div class="grid gap-[5px] m-[14px]
+                grid-cols-1 grid-rows-[auto_auto_auto_auto_auto_auto]
+                md:grid-cols-3 md:grid-rows-[1fr_2fr_2fr_1fr]">
+
+        <!--
+            Header
+            col-span-1: 모바일에서 1칸
+            md:col-span-3: 데스크톱에서 3칸 전체
+            md:row-start-1: 첫 번째 행
+        -->
+        <div class="col-span-1 md:col-span-3 md:row-start-1
+                    bg-[#ff6b6b] p-5">
+            <h1 class="text-2xl font-bold">Header</h1>
+        </div>
+
+        <!--
+            Sidebar
+            md:col-start-1: 1번 컬럼 시작
+            md:row-start-2 md:row-span-2: 2번 행부터 2칸 차지
+        -->
+        <div class="col-span-1
+                    md:col-start-1 md:row-start-2 md:row-span-2
+                    bg-[#4ecdc4] p-5">
+            <h2 class="text-xl font-semibold">Sidebar</h2>
+            <p>Navigation menu</p>
+        </div>
+
+        <!--
+            Main Content
+            md:col-start-2 md:col-span-2: 2번 컬럼부터 2칸
+            md:row-start-2: 2번 행
+        -->
+        <div class="col-span-1
+                    md:col-start-2 md:col-span-2 md:row-start-2
+                    bg-[#45b7d1] p-5">
+            <h2 class="text-xl font-semibold">Main Content</h2>
+            <p>This is the main content area</p>
+        </div>
+
+        <!--
+            Section
+            md:col-start-2: 2번 컬럼
+            md:row-start-3: 3번 행
+        -->
+        <div class="col-span-1
+                    md:col-start-2 md:row-start-3
+                    bg-[#f7b731] p-5">
+            <h2 class="text-xl font-semibold">Section</h2>
+            <p>Additional section</p>
+        </div>
+
+        <!--
+            Content
+            md:col-start-3: 3번 컬럼
+            md:row-start-3: 3번 행
+        -->
+        <div class="col-span-1
+                    md:col-start-3 md:row-start-3
+                    bg-[#5f27cd] p-5 text-white">
+            <h2 class="text-xl font-semibold">Content</h2>
+            <p>Extra content area</p>
+        </div>
+
+        <!--
+            Footer
+            md:col-span-3: 3칸 전체
+            md:row-start-4: 4번 행
+        -->
+        <div class="col-span-1 md:col-span-3 md:row-start-4
+                    bg-[#2d3436] p-5 text-white">
+            <h2 class="text-xl font-semibold">Footer</h2>
+        </div>
+    </div>
+
+    <!--
+    📌 Tailwind Grid 클래스 요약:
+
+    기본 Grid:
+    - grid: display: grid
+    - grid-cols-3: grid-template-columns: repeat(3, 1fr)
+    - grid-rows-[1fr_2fr]: 커스텀 rows
+    - gap-[5px]: gap: 5px
+
+    Grid 배치:
+    - col-span-2: grid-column: span 2
+    - col-start-2: grid-column-start: 2
+    - row-span-2: grid-row: span 2
+    - row-start-3: grid-row-start: 3
+
+    반응형:
+    - md: @media (min-width: 768px) - 768px 이상에서만 적용
+    - 모바일 우선: 기본(모바일) → md:(데스크톱)
+
+    색상:
+    - bg-[#ff6b6b]: 커스텀 배경색
+    - text-white: 흰색 텍스트
+
+    간격:
+    - p-5: padding: 1.25rem (20px)
+    - m-[14px]: margin: 14px
+    -->
+</body>
+</html>
